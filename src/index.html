@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sp-dash</title>
+<style>
+<!--INLINE_STYLES-->
+</style>
+</head>
+<body>
+<div id="sticky-head">
+<header id="topbar">
+  <div class="brand"><span class="logo">◱</span> sp-dash</div>
+  <div class="meta" id="meta">no export loaded</div>
+  <div class="spacer"></div>
+  <div class="actions">
+    <label class="btn" for="file-input">Open export…</label>
+    <input id="file-input" type="file" accept=".json,.csv,application/json,text/csv" multiple hidden>
+    <button class="btn ghost" id="reset-btn" hidden>Clear</button>
+  </div>
+</header>
+
+<nav id="section-nav" hidden>
+  <a href="#sec-timeline">Timeline</a>
+  <a href="#sec-day">Day</a>
+  <a href="#sec-heatmap">Heatmap</a>
+  <a href="#sec-estimates">Estimates</a>
+  <a href="#sec-quadrants">Quadrants</a>
+  <a href="#sec-digest">Digest</a>
+</nav>
+
+<div id="load-error" hidden></div>
+
+<section id="filterbar" hidden>
+  <span class="field">Project
+    <select id="f-project"><option value="">All projects</option></select>
+  </span>
+  <span class="field">Tag
+    <select id="f-tag"><option value="">All tags</option></select>
+  </span>
+  <span class="field">State
+    <select id="f-done">
+      <option value="">All</option>
+      <option value="done">Done</option>
+      <option value="open">Not done</option>
+    </select>
+  </span>
+  <span class="field">From <input type="date" id="f-from"></span>
+  <span class="field">To <input type="date" id="f-to"></span>
+  <button class="btn ghost" id="f-clear" hidden>Clear filters</button>
+  <div class="chips" id="f-chips"></div>
+</section>
+</div>
+
+<div id="ingest-notes" hidden></div>
+
+<main id="content" hidden>
+  <section class="card" id="sec-timeline">
+    <div class="card-head">
+      <h2>Project by day</h2>
+      <div class="controls">
+        <span class="field">Granularity</span>
+        <div class="seg" id="granularity">
+          <button data-gran="auto" class="active">Auto</button>
+          <button data-gran="day">Day</button>
+          <button data-gran="week">Week</button>
+          <button data-gran="month">Month</button>
+        </div>
+        <div class="seg" id="timeline-mode">
+          <button data-mode="bars" class="active">Bars</button>
+          <button data-mode="matrix">Matrix</button>
+        </div>
+        <button class="btn ghost" id="png-timeline">PNG</button>
+      </div>
+    </div>
+    <div class="chart" id="chart-timeline"></div>
+    <div id="matrix-timeline" hidden></div>
+    <p class="hint" id="timeline-hint"></p>
+  </section>
+
+  <section class="card" id="sec-day">
+    <div class="card-head">
+      <h2>Day drill-down</h2>
+      <div class="controls">
+        <span class="chip warn" id="day-quality" hidden></span>
+        <button class="btn ghost" id="day-prev">‹</button>
+        <span class="field">Day <input type="date" id="day-picker"></span>
+        <button class="btn ghost" id="day-next">›</button>
+      </div>
+    </div>
+    <div id="day-body"><p class="empty">Pick a day on the timeline, or use the date field.</p></div>
+  </section>
+
+  <section class="card" id="sec-heatmap">
+    <div class="card-head">
+      <h2>Calendar heatmap</h2>
+      <div class="controls">
+        <span class="field" id="heatmap-total"></span>
+        <button class="btn ghost" id="png-heatmap">PNG</button>
+      </div>
+    </div>
+    <div class="chart" id="chart-heatmap"></div>
+    <p class="hint">Tracked task time per day. Empty cells are days with no tracked time; they are part of the range and stay visible.</p>
+  </section>
+
+  <section class="card" id="sec-estimates">
+    <div class="card-head">
+      <h2>Estimate vs actual</h2>
+      <div class="controls">
+        <button class="btn ghost" id="png-estimates">PNG</button>
+      </div>
+    </div>
+    <div class="stat-row" id="estimates-summary"></div>
+    <div class="chart short" id="chart-estimates"></div>
+    <div class="table-wrap" id="estimates-table"></div>
+  </section>
+
+  <section class="card" id="sec-quadrants">
+    <div class="card-head">
+      <h2>Quadrant split</h2>
+      <p class="hint" id="quad-hint"></p>
+    </div>
+    <div class="quad-grid" id="quad-grid"></div>
+  </section>
+
+  <section class="card" id="sec-digest">
+    <div class="card-head">
+      <h2>Digest</h2>
+      <div class="controls"><span class="field" id="digest-range"></span></div>
+    </div>
+    <div id="digest-body"></div>
+  </section>
+</main>
+
+<div id="drop-overlay">
+  <div class="drop-card">
+    <h1>sp-dash</h1>
+    <p>Drop a <code>sp-backup*.json</code> export here, or choose it below.</p>
+    <p class="small">Super Productivity &rsaquo; Settings &rsaquo; Sync &amp; Backup &rsaquo; Import/Export &rsaquo; Export Data.</p>
+    <label class="btn" for="file-input">Choose export…</label>
+    <p class="small" id="drop-status">Nothing loads until you drop a file. No requests leave this page.</p>
+  </div>
+</div>
+
+<!--INLINE_SCRIPTS-->
+</body>
+</html>

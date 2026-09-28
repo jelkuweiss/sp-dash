@@ -1,0 +1,6 @@
+.DS_Store
+.crush/
+
+# Real Super Productivity exports contain real titles, notes, and project
+# names. Only the anonymized fixture is tracked.
+sp-backup_*.json
